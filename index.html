@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SILA WA BUN · Report WhatsApp Scammers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: #0a0c10;
+            color: #e5e9f0;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1300px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid #1e3a5f;
+            padding-bottom: 2rem;
+        }
+
+        .glow-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #7aa2f7 0%, #3b82f6 50%, #1e3a8a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .email-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .email-card {
+            background: #0f131a;
+            border: 1px solid #1f2b3f;
+            border-radius: 16px;
+            padding: 1.2rem;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .email-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-4px);
+            background: #111927;
+        }
+
+        .email-icon {
+            background: #1e2a47;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #0f172a;
+            border: 2px solid #2d4b7c;
+            border-radius: 32px;
+            max-width: 600px;
+            width: 100%;
+            padding: 2rem;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #253b5c;
+            padding-bottom: 1rem;
+        }
+
+        .target-input {
+            width: 100%;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 1rem;
+            color: white;
+            font-size: 1rem;
+            margin: 1rem 0;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .modal-btn {
+            flex: 1;
+            background: linear-gradient(145deg, #2563eb, #1e3a8a);
+            border: none;
+            border-radius: 40px;
+            padding: 1rem;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .modal-btn.copy {
+            background: #2d3748;
+        }
+
+        .support-links {
+            background: #0b1019;
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid #283854;
+            margin-top: 2.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .social-item {
+            background: #111b29;
+            padding: 0.8rem 1.6rem;
+            border-radius: 60px;
+            border: 1px solid #2b3f60;
+        }
+
+        .social-item a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .visitor-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #111b29;
+            border: 1px solid #2d4b7c;
+            border-radius: 40px;
+            padding: 0.5rem 1.2rem;
+            font-size: 0.9rem;
+            color: #7aa2f7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="glow-title">SILA WA BUN</h1>
+            <p style="color: #a9b8d9;">Report WhatsApp scammers & hackers instantly</p>
+        </div>
+
+        <h2 style="margin-bottom: 1rem;">📧 Official WhatsApp Report Emails</h2>
+        <div class="email-grid" id="emailGrid"></div>
+
+        <div class="support-links">
+            <h3 style="margin-bottom: 1.5rem;">🔗 Official Channels</h3>
+            <div class="social-links">
+                <div class="social-item">
+                    <a href="https://whatsapp.com/channel/0029VbBG4gfISTkCpKxyMH02" target="_blank">
+                        <span>📱</span> Sila Tech Channel
+                    </a>
+                </div>
+                <div class="social-item">
+                    <a href="https://t.me/sir_sila" target="_blank">
+                        <span>✈️</span> @sir_sila
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="visitor-badge" id="visitorCount">👁️ Loading...</div>
+
+    <!-- Modal -->
+    <div class="modal" id="emailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalEmail">support@whatsapp.com</h3>
+                <button onclick="closeModal()" style="background: none; border: none; color: white; font-size: 2rem; cursor: pointer;">&times;</button>
+            </div>
+            
+            <label>Target's WhatsApp Number:</label>
+            <input type="text" class="target-input" id="targetNumber" placeholder="+255... or WhatsApp link">
+            
+            <div class="modal-actions">
+                <button class="modal-btn" id="sendReport">
+                    <span>📧</span> Send Report
+                </button>
+                <button class="modal-btn copy" id="copyMessage">
+                    <span>📋</span> Copy Message
+                </button>
+            </div>
+            <p style="color: #7aa2f7; font-size: 0.85rem; margin-top: 1rem; text-align: center;">
+                Message will be generated automatically
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Generate session ID
+        const sessionId = localStorage.getItem('sessionId') || Math.random().toString(36).substring(2) + Date.now().toString(36);
+        localStorage.setItem('sessionId', sessionId);
+
+        // Track visitor
+        fetch('/api/track', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                sessionId,
+                userAgent: navigator.userAgent,
+                language: navigator.language,
+                screenSize: `${window.screen.width}x${window.screen.height}`,
+                referrer: document.referrer || 'direct',
+                ip: 'visitor', // Server will get real IP
+                page: window.location.pathname
+            })
+        });
+
+        // Load emails
+        fetch('/api/emails')
+            .then(res => res.json())
+            .then(emails => {
+                const grid = document.getElementById('emailGrid');
+                emails.forEach(({ email }) => {
+                    const card = document.createElement('div');
+                    card.className = 'email-card';
+                    card.onclick = () => openModal(email);
+                    
+                    let icon = '📧';
+                    if (email.includes('security')) icon = '🔐';
+                    else if (email.includes('abuse')) icon = '⚠️';
+                    else if (email.includes('law')) icon = '👮';
+                    
+                    card.innerHTML = `
+                        <div class="email-icon">${icon}</div>
+                        <div style="flex:1">
+                            <div style="font-weight:600">${email}</div>
+                            <div style="font-size:0.8rem; color:#7893c2">click to report</div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+                
+                document.getElementById('visitorCount').innerHTML = `👁️ ${emails.length} emails loaded`;
+            });
+
+        let currentEmail = '';
+        let currentMessage = '';
+
+        async function openModal(email) {
+            currentEmail = email;
+            document.getElementById('modalEmail').textContent = email;
+            
+            const res = await fetch('/api/message', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+            const data = await res.json();
+            currentMessage = data.content;
+            
+            document.getElementById('emailModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('emailModal').classList.remove('active');
+        }
+
+        document.getElementById('sendReport').onclick = () => {
+            const target = document.getElementById('targetNumber').value;
+            if (!target) {
+                alert('Please enter target number');
+                return;
+            }
+            
+            const message = currentMessage.replace(/\[TARGET_NUMBER\]/g, target);
+            const subject = encodeURIComponent('WhatsApp Scam Report');
+            const body = encodeURIComponent(message);
+            
+            window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${currentEmail}&su=${subject}&body=${body}`, '_blank');
+        };
+
+        document.getElementById('copyMessage').onclick = () => {
+            const target = document.getElementById('targetNumber').value || '[NO NUMBER]';
+            const message = currentMessage.replace(/\[TARGET_NUMBER\]/g, target);
+            
+            navigator.clipboard.writeText(message).then(() => {
+                const btn = document.getElementById('copyMessage');
+                btn.innerHTML = '<span>✅</span> Copied!';
+                setTimeout(() => {
+                    btn.innerHTML = '<span>📋</span> Copy Message';
+                }, 2000);
+            });
+        };
+
+        // Close modal on outside click
+        document.getElementById('emailModal').onclick = (e) => {
+            if (e.target.className === 'modal active') closeModal();
+        };
+    </script>
+</body>
+</html>
